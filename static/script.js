@@ -45,13 +45,32 @@ Thank you.`
  * it NEVER sends the email — the user must press Send manually inside Gmail.
  * @returns {string} Fully encoded Gmail compose URL.
  */
-function buildGmailComposeUrl({ to, subject, body }) {
-  const base = 'https://mail.google.com/mail/?view=cm&fs=1&tf=1';
+function buildComposeUrl({ to, subject, body }) {
+
+    const isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+
+    if (isMobile) {
+        return `mailto:${to.join(",")}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+    }
+
+    const base = "https://mail.google.com/mail/?view=cm&fs=1&tf=1";
+
+    const params = new URLSearchParams({
+        to: to.join(","),
+        su: subject,
+        body: body
+    });
+
+    return `${base}&${params.toString()}`;
+}
+
+  const base = "https://mail.google.com/mail/?view=cm&fs=1&tf=1";
   const params = new URLSearchParams({
-    to,
+    to: to.join(","),
     su: subject,
-    body,
+    body: body,
   });
+
   return `${base}&${params.toString()}`;
 }
 
@@ -204,11 +223,34 @@ function handleComposeClick() {
 
   window.setTimeout(() => {
     try {
-      const gmailUrl = buildGmailComposeUrl(EMAIL_DETAILS);
-      const newTab = window.open(gmailUrl, '_blank', 'noopener,noreferrer');
+      const composeUrl = buildComposeUrl(EMAIL_DETAILS);
+
+      let newTab = null;
+
+      if (/Android|iPhone|iPad|iPod/i.test(navigator.userAgent)) {
+       window.location.href = composeUrl;
+      } else {
+       newTab = window.open(composeUrl, "_blank");
+      }
 
       // Popup blockers typically return null or an undefined/closed window.
-      if (!newTab || newTab.closed || typeof newTab.closed === 'undefined') {
+      if (!/Android|iPhone|iPad|iPod/i.test(navigator.userAgent)) {
+
+        if (!newTab || newTab.closed || typeof newTab.closed === 'undefined') {
+
+          showToast(
+              'Pop-up blocked! Please allow pop-ups for this site and try again.',
+              'error',
+              5000
+          );
+
+        } else {
+          showToast('Gmail opened successfully.', 'success');
+        }
+
+      } else {
+        showToast('Opening your email app...', 'success');
+      }
         showToast(
           'Pop-up blocked! Please allow pop-ups for this site and try again.',
           'error',
