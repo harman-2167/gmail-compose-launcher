@@ -1,4 +1,4 @@
-# 📧 Gmail Compose Launcher
+# Gmail Compose Launcher
 
 A modern, privacy-first web application built with **Flask + HTML5 + CSS3 + Vanilla JavaScript**
 that opens Gmail's compose window with a **pre-filled recipient, subject, and message** — with
