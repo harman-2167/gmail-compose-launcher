@@ -64,16 +64,6 @@ function buildComposeUrl({ to, subject, body }) {
     return `${base}&${params.toString()}`;
 }
 
-  const base = "https://mail.google.com/mail/?view=cm&fs=1&tf=1";
-  const params = new URLSearchParams({
-    to: to.join(","),
-    su: subject,
-    body: body,
-  });
-
-  return `${base}&${params.toString()}`;
-}
-
 /* ==========================================================================
    3. Toast notification system
    ========================================================================== */
@@ -215,11 +205,11 @@ const composeBtn = document.getElementById('composeBtn');
  * Handles popup blockers gracefully by detecting a null/blocked window.
  */
 function handleComposeClick() {
-  if (!composeBtn || composeBtn.classList.contains('is-loading')) return;
+  if (!composeBtn || composeBtn.classList.contains("is-loading")) return;
 
-  composeBtn.classList.add('is-loading');
+  composeBtn.classList.add("is-loading");
   composeBtn.disabled = true;
-  composeBtn.setAttribute('aria-busy', 'true');
+  composeBtn.setAttribute("aria-busy", "true");
 
   window.setTimeout(() => {
     try {
@@ -228,46 +218,33 @@ function handleComposeClick() {
       let newTab = null;
 
       if (/Android|iPhone|iPad|iPod/i.test(navigator.userAgent)) {
-       window.location.href = composeUrl;
+        window.location.href = composeUrl;
+        showToast("Opening your email app...", "success");
       } else {
-       newTab = window.open(composeUrl, "_blank");
-      }
+        newTab = window.open(composeUrl, "_blank");
 
-      // Popup blockers typically return null or an undefined/closed window.
-      if (!/Android|iPhone|iPad|iPod/i.test(navigator.userAgent)) {
-
-        if (!newTab || newTab.closed || typeof newTab.closed === 'undefined') {
-
+        if (!newTab || newTab.closed || typeof newTab.closed === "undefined") {
           showToast(
-              'Pop-up blocked! Please allow pop-ups for this site and try again.',
-              'error',
-              5000
+            "Pop-up blocked! Please allow pop-ups for this site and try again.",
+            "error",
+            5000
           );
-
         } else {
-          showToast('Gmail opened successfully.', 'success');
+          showToast("Gmail opened successfully.", "success");
         }
-
-      } else {
-        showToast('Opening your email app...', 'success');
-      }
-        showToast(
-          'Pop-up blocked! Please allow pop-ups for this site and try again.',
-          'error',
-          5000
-        );
-      } else {
-        showToast('Gmail opened successfully.', 'success');
       }
     } catch (err) {
-      console.error('Failed to open Gmail:', err);
-      showToast('Something went wrong while opening Gmail. Please try again.', 'error');
+      console.error("Failed to open Gmail:", err);
+      showToast(
+        "Something went wrong while opening Gmail. Please try again.",
+        "error"
+      );
     } finally {
-      composeBtn.classList.remove('is-loading');
+      composeBtn.classList.remove("is-loading");
       composeBtn.disabled = false;
-      composeBtn.removeAttribute('aria-busy');
+      composeBtn.removeAttribute("aria-busy");
     }
-  }, 1000); // 1-second loading animation, as required.
+  }, 1000);
 }
 
 if (composeBtn) {
@@ -282,6 +259,7 @@ if (composeBtn) {
     }
   });
 }
+
 
 /* ==========================================================================
    7. Responsive navbar toggle
