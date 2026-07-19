@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Gmail Compose Launcher | Prefill &amp; Send Manually</title>
+    <meta name="description" content="Open Gmail with a pre-filled email in one click. No login, no password, nothing sent automatically." />
+
+    <!-- Font Awesome (icons) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+
+    <!-- App styles -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
+
+    <!-- Favicon (inline SVG, no external file needed) -->
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%93%A7%3C/text%3E%3C/svg%3E">
+</head>
+<body>
+
+    <!-- ============================= NAVBAR ============================= -->
+    <header class="navbar" id="navbar">
+        <div class="navbar__inner">
+            <a href="#top" class="navbar__brand" aria-label="Go to top">
+                <span class="navbar__logo"><i class="fa-solid fa-paper-plane"></i></span>
+                <span class="navbar__title">MailLaunch</span>
+            </a>
+
+            <nav class="navbar__links" aria-label="Primary navigation">
+                <a href="#top" class="navbar__link">Home</a>
+                <a href="#compose" class="navbar__link">Compose</a>
+                <a href="#details" class="navbar__link">Email Details</a>
+                <a href="#faq" class="navbar__link">FAQ</a>
+            </nav>
+
+            <button id="navbarToggle" class="navbar__toggle" aria-label="Toggle navigation menu" aria-expanded="false">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+        </div>
+
+        <!-- Mobile dropdown menu -->
+        <nav class="navbar__mobile" id="navbarMobile" aria-label="Mobile navigation">
+            <a href="#top" class="navbar__link">Home</a>
+            <a href="#compose" class="navbar__link">Compose</a>
+            <a href="#details" class="navbar__link">Email Details</a>
+            <a href="#faq" class="navbar__link">FAQ</a>
+        </nav>
+    </header>
+
+    <!-- ============================= BACKGROUND ============================= -->
+    <div class="bg-gradient" aria-hidden="true"></div>
+    <div class="bg-orbs" aria-hidden="true">
+        <span class="orb orb--one"></span>
+        <span class="orb orb--two"></span>
+        <span class="orb orb--three"></span>
+    </div>
+
+    <!-- ============================= MAIN CONTENT ============================= -->
+    <main id="top">
+
+        <!-- HERO / HOME SECTION -->
+        <section class="hero" id="hero">
+            <div class="glass-card hero__card" id="compose">
+
+                <div class="hero__icon" aria-hidden="true">
+                    <i class="fa-solid fa-envelope-open-text"></i>
+                </div>
+
+                <h1 class="hero__title">Gmail Compose Launcher</h1>
+                <p class="hero__subtitle">
+                    Open Gmail with your recipient, subject, and message already filled in —
+                    all in one click. You stay in full control:
+                    <strong>review it, edit it, and send it yourself.</strong>
+                </p>
+
+                <ul class="hero__badges" aria-label="Key privacy guarantees">
+                    <li class="badge"><i class="fa-solid fa-user-lock"></i> No login required</li>
+                    <li class="badge"><i class="fa-solid fa-key"></i> No password ever asked</li>
+                    <li class="badge"><i class="fa-solid fa-ban"></i> No auto-send</li>
+                </ul>
+
+                <!-- MAIN CTA BUTTON -->
+                <button id="composeBtn" class="btn btn--primary btn--large ripple" type="button">
+                    <span class="btn__content">
+                        <i class="fa-solid fa-paper-plane"></i>
+                        <span>Compose Email</span>
+                    </span>
+                    <span class="btn__spinner" id="btnSpinner" aria-hidden="true"></span>
+                </button>
+
+                <p class="hero__hint">
+                    <i class="fa-solid fa-circle-info"></i>
+                    Clicking this opens Gmail in a <strong>new tab</strong>. Please allow pop-ups if prompted.
+                </p>
+            </div>
+        </section>
+
+        <!-- EMAIL DETAILS PREVIEW SECTION -->
+        <section class="details" id="details">
+            <div class="glass-card details__card">
+                <h2 class="section-title">
+                    <i class="fa-solid fa-file-lines"></i> Email Preview
+                </h2>
+                <p class="section-subtitle">This is exactly what will be pre-filled in Gmail.</p>
+
+                <div class="details__row">
+                    <span class="details__label"><i class="fa-solid fa-user"></i> To</span>
+                    <span class="details__value" id="previewTo">minister.sm@gov.in, d.pradhan@sansad.nic.in</span>
+                </div>
+
+                <div class="details__row">
+                    <span class="details__label"><i class="fa-solid fa-heading"></i> Subject</span>
+                    <span class="details__value" id="previewSubject">Request for Resignation</span>
+                    <button class="btn btn--ghost btn--small ripple" id="copySubjectBtn" type="button" aria-label="Copy subject">
+                        <i class="fa-regular fa-copy"></i> Copy Subject
+                    </button>
+                </div>
+
+                <div class="details__row details__row--body">
+                    <span class="details__label"><i class="fa-solid fa-align-left"></i> Message</span>
+                    <pre class="details__value details__value--body" id="previewBody">Ddharmendra pradhan, 
+    I respectfully request your resignation as the Education Minister. In my opinion, you have failed to meet the expectations of countless students across the country. Many people have lost confidence in your leadership, and I do not believe you deserve to continue serving in this position.
+
+    I urge you to step down and allow someone who can work sincerely for the future of India's education system.
+    Thank you.,
+
+        </pre>
+                    <button class="btn btn--ghost btn--small ripple" id="copyBodyBtn" type="button" aria-label="Copy message">
+                        <i class="fa-regular fa-copy"></i> Copy Message
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- FAQ / HOW IT WORKS SECTION -->
+        <section class="faq" id="faq">
+            <div class="glass-card faq__card">
+                <h2 class="section-title"><i class="fa-solid fa-circle-question"></i> How It Works</h2>
+
+                <div class="faq__grid">
+                    <div class="faq__item">
+                        <div class="faq__icon"><i class="fa-solid fa-1"></i></div>
+                        <h3>Click Compose</h3>
+                        <p>Press the "Compose Email" button above.</p>
+                    </div>
+                    <div class="faq__item">
+                        <div class="faq__icon"><i class="fa-solid fa-2"></i></div>
+                        <h3>Gmail Opens</h3>
+                        <p>A new tab opens with Gmail's compose window, pre-filled.</p>
+                    </div>
+                    <div class="faq__item">
+                        <div class="faq__icon"><i class="fa-solid fa-3"></i></div>
+                        <h3>Review &amp; Edit</h3>
+                        <p>Make any changes you like directly inside Gmail.</p>
+                    </div>
+                    <div class="faq__item">
+                        <div class="faq__icon"><i class="fa-solid fa-4"></i></div>
+                        <h3>You Click Send</h3>
+                        <p>Nothing is ever sent automatically — the choice is always yours.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- ============================= TOAST ============================= -->
+    <div id="toastContainer" class="toast-container" aria-live="polite" aria-atomic="true"></div>
+
+    <!-- ============================= FOOTER ============================= -->
+    <footer class="footer">
+        <p>Made with <i class="fa-solid fa-heart footer__heart"></i> using Flask</p>
+        <p class="footer__note">Your privacy matters — no data is ever stored or transmitted by this app.</p>
+    </footer>
+
+    <!-- App script -->
+    <script src="{{ url_for('static', filename='script.js') }}" defer></script>
+</body>
+</html>
