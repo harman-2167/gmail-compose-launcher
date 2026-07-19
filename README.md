@@ -4,13 +4,13 @@ A modern, privacy-first web application built with **Flask + HTML5 + CSS3 + Vani
 that opens Gmail's compose window with a **pre-filled recipient, subject, and message** — with
 one click. The user reviews the email inside Gmail and clicks **Send** manually.
 
-> 🔒 **This app never asks for your Gmail password, never logs you in, and never sends email
+**This app never asks for your Gmail password, never logs you in, and never sends email
 > automatically.** It simply builds a Gmail deep-link (`https://mail.google.com/mail/?view=cm...`)
 > and opens it in a new browser tab.
 
 ---
 
-## ✨ Features
+## Features
 
 - Premium **dark-theme glassmorphism** UI with animated gradient background
 - One-click **"Compose Email"** button that opens Gmail pre-filled
@@ -25,7 +25,7 @@ one click. The user reviews the email inside Gmail and clicks **Send** manually.
 
 ---
 
-## 🗂️ Folder Structure
+## Folder Structure
 
 ```
 project/
@@ -44,14 +44,14 @@ project/
 
 ---
 
-## ⚙️ Requirements
+## Requirements
 
 - Python **3.10+** (tested with 3.14; any modern Python 3 works)
 - pip
 
 ---
 
-## 🚀 Installation & Local Setup
+## Installation & Local Setup
 
 ### 1. Clone / download the project
 
@@ -99,7 +99,7 @@ Open that URL in your browser and click **"Compose Email"**.
 
 ---
 
-## 🧪 Health Check
+## Health Check
 
 The app exposes a simple health check endpoint useful for uptime monitors and
 hosting platforms:
@@ -110,7 +110,7 @@ GET /healthz  →  {"status": "ok", "service": "gmail-compose-launcher"}
 
 ---
 
-## 🖼️ Screenshots
+## Screenshots
 
 > Add your own screenshots here after running the app locally.
 
@@ -120,7 +120,7 @@ GET /healthz  →  {"status": "ok", "service": "gmail-compose-launcher"}
 
 ---
 
-## ☁️ Deployment
+## Deployment
 
 The app is a standard Flask app served via **gunicorn** in production, so it deploys
 cleanly to most Python-friendly hosts. Below are instructions for three popular free/low-cost platforms.
@@ -171,7 +171,7 @@ cleanly to most Python-friendly hosts. Below are instructions for three popular 
 
 ---
 
-## 🔐 Privacy & Security Notes
+## Privacy & Security Notes
 
 - No login, signup, or password fields exist anywhere in this application.
 - No email is ever sent from the server — the app only **constructs a URL**.
@@ -182,7 +182,7 @@ cleanly to most Python-friendly hosts. Below are instructions for three popular 
 
 ---
 
-## 🛠️ Customization
+## Customization
 
 To change the pre-filled recipient, subject, or message, edit the
 `EMAIL_DETAILS` object at the top of `static/script.js`:
@@ -204,10 +204,13 @@ The preview section in `templates/index.html` (`#previewTo`, `#previewSubject`,
 
 ---
 
-## 📄 License
+## License
 
 This project is provided as-is for educational and personal use.
 
 ---
 
-Made with ❤️ using Flask.
+made by using flask 
+
+## Author
+Harmandeep kaur
